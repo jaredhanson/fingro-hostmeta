@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XRD xmlns="http://docs.oasis-open.org/ns/xri/xrd-1.0"
+     xmlns:openid="http://openid.net/xmlns/1.0">
+
+	<Subject>acct:me@jaredhanson.net</Subject>
+	<Alias>http://jaredhanson.net/</Alias>
+	<Alias>http://www.jaredhanson.net/</Alias>
+	
+	<Link rel="describedby" href="http://www.jaredhanson.net/" type="text/html" />
+	<Link rel="http://webfinger.net/rel/profile-page" href="http://www.jaredhanson.net/" type="text/html" />
+	<Link rel="http://microformats.org/profile/hcard" href="http://www.jaredhanson.net/" type="text/html" />
+	<Link rel="http://gmpg.org/xfn/11" href="http://www.jaredhanson.net/" type="text/html" />
+	<Link rel="http://portablecontacts.net/spec/1.0#me" href="http://www.jaredhanson.net/index.poco.json" type="application/poco+json" />
+
+	<Link rel="http://schemas.google.com/g/2010#updates-from" href="http://buzz.googleapis.com/feeds/106707265818431720554/public/posted" type="application/atom+xml" />
+
+
+	<Link rel="http://specs.openid.net/auth/2.0/server" href="https://www.google.com/accounts/o8/ud" />
+	<Link rel="http://specs.openid.net/auth/2.0/signon" href="https://www.google.com/accounts/o8/ud">
+		<openid:Delegate>http://www.google.com/profiles/jaredhanson</openid:Delegate>
+	</Link>
+	
+	<Link rel="http://portablecontacts.net/spec/1.0" href="http://www-opensocial.googleusercontent.com/api/people/" />
+	
+	<Link rel="http://oexchange.org/spec/0.8/rel/user-target" href="http://www.instapaper.com/oexchange.xrd" type="application/xrd+xml" />
+	
+	
+	<Link rel="alternate" href="http://www.jaredhanson.net/index.vcard.xml" type="application/x-vcard+xml" />
+	<Link rel="alternate" href="http://www.jaredhanson.net/index.poco.json" type="application/poco+json" />
+	<Link rel="alternate" href="http://www.jaredhanson.net/index.poco.xml" type="application/poco+xml" />
+	<Link rel="alternate" href="http://www.jaredhanson.net/index.finger" type="text/x-finger" />
+	
+	<Link rel="meta" href="http://www.jaredhanson.net/index.rdf" type="application/rdf+xml" />
+
+</XRD>
