@@ -1,5 +1,5 @@
 {
-  "name": "fingro-hostmeta",
+  "name": "fingro-lrdd",
   "version": "0.0.0",
   "description": "TODO: No description specified",
   "keywords": [
@@ -13,10 +13,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/jaredhanson/fingro-hostmeta.git"
+    "url": "git://github.com/jaredhanson/fingro-lrdd.git"
   },
   "bugs": {
-    "url": "http://github.com/jaredhanson/fingro-hostmeta/issues"
+    "url": "http://github.com/jaredhanson/fingro-lrdd/issues"
   },
   "licenses": [
     {
