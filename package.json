@@ -18,10 +18,11 @@
   "bugs": {
     "url": "http://github.com/jaredhanson/fingro-lrdd/issues"
   },
+  "license": "MIT",
   "licenses": [
     {
       "type": "MIT",
-      "url": "http://www.opensource.org/licenses/MIT"
+      "url": "http://opensource.org/licenses/MIT"
     }
   ],
   "main": "./lib",
@@ -29,8 +30,12 @@
     "webfinger": "^0.4.2"
   },
   "devDependencies": {
-    "mocha": "1.x.x",
-    "chai": "1.x.x"
+    "make-node": "^0.3.0",
+    "mocha": "^2.0.0",
+    "chai": "^3.0.0",
+    "sinon-chai": "^2.8.0",
+    "proxyquire": "^1.7.0",
+    "sinon": "^1.17.0"
   },
   "engines": {
     "node": "*"
