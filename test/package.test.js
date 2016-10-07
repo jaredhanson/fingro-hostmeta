@@ -1,11 +1,11 @@
 /* global describe, it, expect */
 
-var pkg = require('..');
+var factory = require('..');
 
-describe('fingro-hostmeta', function() {
+describe('fingro-lrdd', function() {
   
-  it('should export object', function() {
-    expect(pkg).to.be.an('object');
+  it('should export function', function() {
+    expect(factory).to.be.an('function');
   });
   
 });
