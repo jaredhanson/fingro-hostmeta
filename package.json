@@ -1,7 +1,7 @@
 {
   "name": "fingro-lrdd",
   "version": "0.0.0",
-  "description": "TODO: No description specified",
+  "description": "LRDD-based entity information discovery.",
   "keywords": [
     "hostmeta",
     "lrdd"
