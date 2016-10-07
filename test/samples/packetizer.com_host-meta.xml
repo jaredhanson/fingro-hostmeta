@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XRD xmlns="http://docs.oasis-open.org/ns/xri/xrd-1.0">
+  <Property type="http://packetizer.com/ns/name">Packetizer, Inc.</Property>
+  <Link rel="copyright"
+        type="text/html"
+        href="http://www.packetizer.com/corp/"/>
+  <Link rel="lrdd"
+        type="application/xrd+xml"
+        template="https://packetizer.com/lrdd/?resource={uri}"/>
+</XRD>

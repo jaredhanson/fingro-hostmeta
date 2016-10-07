@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XRD xmlns="http://docs.oasis-open.org/ns/xri/xrd-1.0">
+  <Subject>acct:paulej@packetizer.com</Subject>
+  <Alias>h323:paulej@packetizer.com</Alias>
+  <Property type="http://packetizer.com/ns/name">Paul E. Jones</Property>
+  <Property type="http://packetizer.com/ns/name#zh-CN">保罗‧琼斯</Property>
+  <Property type="http://packetizer.com/ns/activated">2000-02-17T03:00:00Z</Property>
+  <Link rel="http://webfinger.net/rel/avatar"
+        type="image/jpeg"
+        href="http://www.packetizer.com/people/paulej/images/paulej.jpg"/>
+  <Link rel="http://specs.openid.net/auth/2.0/provider"
+        href="https://openid.packetizer.com/paulej"/>
+  <Link rel="http://packetizer.com/rel/share"
+        type="text/html"
+        href="http://hive.packetizer.com/users/paulej/"/>
+  <Link rel="http://webfinger.net/rel/profile-page"
+        type="text/html"
+        href="http://www.packetizer.com/people/paulej/"/>
+  <Link rel="http://packetizer.com/rel/blog"
+        type="text/html"
+        href="http://www.packetizer.com/people/paulej/blog/">
+    <Title type="en-us">Paul E. Jones' Blog</Title>
+  </Link>
+  <Link rel="http://packetizer.com/rel/businesscard"
+        type="text/vcard"
+        href="http://www.packetizer.com/people/paulej/paulej.vcf"/>
+  <Link rel="http://schemas.google.com/g/2010#updates-from"
+        type="application/atom+xml"
+        href="http://www.packetizer.com/people/paulej/blog/blog.xml"/>
+  <Link rel="http://microformats.org/profile/hcard"
+        type="text/html"
+        href="http://www.packetizer.com/people/paulej/"/>
+  <Link rel="http://bitcoin.org/rel/address"
+        href="bitcoin:17XoqvUCrf12H7Vc7c7uDxib8FDMXFx2p6"/>
+  <Link rel="http://bitcoin.org/rel/payments"
+        type="text/plain"
+        href="https://secure.packetizer.com/bitcoin_address/?account=paulej"/>
+</XRD>
