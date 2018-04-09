@@ -12,6 +12,63 @@ describe('fingro-lrdd', function() {
     expect(factory).to.be.an('function');
   });
   
+  describe('resolve', function() {
+    
+    describe('without type', function() {
+      var lrdd = sinon.stub().yields(null, {
+        subject: 'acct:paulej@packetizer.com',
+        aliases: [ 'h323:paulej@packetizer.com' ],
+        properties: {
+          'http://packetizer.com/ns/name#zh-CN': '保罗‧琼斯',
+          'http://packetizer.com/ns/activated': '2000-02-17T03:00:00Z',
+          'http://packetizer.com/ns/name': 'Paul E. Jones'
+        },
+        links: [
+          { rel: 'http://webfinger.net/rel/avatar',
+            type: 'image/jpeg',
+            href: 'http://www.packetizer.com/people/paulej/images/paulej.jpg' }
+        ]
+      });
+      
+      var record;
+      before(function(done) {
+        var resolver = $require('..', { webfinger: { lrdd: lrdd } })();
+        
+        resolver.resolve('acct:paulej@packetizer.com', function(err, r) {
+          if (err) { return done(err); }
+          record = r;
+          done();
+        })
+      });
+      
+      it('should call lrdd', function() {
+        expect(lrdd).to.have.been.calledOnce;
+        expect(lrdd).to.have.been.calledWith(
+          'acct:paulej@packetizer.com', {}
+        );
+      });
+      
+      it('should yield, record', function() {
+        expect(record).to.be.an('object');
+        expect(record).to.deep.equal({
+          subject: 'acct:paulej@packetizer.com',
+          aliases: [ 'h323:paulej@packetizer.com' ],
+          attributes: {
+            'http://packetizer.com/ns/name#zh-CN': '保罗‧琼斯',
+            'http://packetizer.com/ns/activated': '2000-02-17T03:00:00Z',
+            'http://packetizer.com/ns/name': 'Paul E. Jones'
+          },
+          services: {
+            'http://webfinger.net/rel/avatar': [
+              { location: 'http://www.packetizer.com/people/paulej/images/paulej.jpg', mediaType: 'image/jpeg' }
+            ]
+          }
+        });
+      });
+    });
+    
+  });
+  
   describe('resolveAliases', function() {
     
     describe('with aliases', function() {
