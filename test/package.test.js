@@ -92,6 +92,31 @@ describe('fingro-lrdd', function() {
       });
     });
     
+    describe('error due to Web Host Metadata not supported', function() {
+      var lrdd = sinon.stub().yields(new Error("Unable to get host-meta or host-meta.json"));
+      
+      var aliases, error;
+      before(function(done) {
+        var resolver = $require('..', { webfinger: { lrdd: lrdd } })();
+        
+        resolver.resolveAliases('acct:paulej@packetizer.com', function(err, a) {
+          error = err;
+          aliases = a;
+          done();
+        })
+      });
+      
+      it('should yield error', function() {
+        expect(error).to.be.an.instanceOf(Error);
+        expect(error.message).to.equal('Unable to get host-meta or host-meta.json');
+        expect(error.code).to.equal('EPROTONOSUPPORT');
+      });
+      
+      it('should not yeild aliases', function() {
+        expect(aliases).to.be.undefined;
+      });
+    });
+    
   });
   
   describe('resolveServices', function() {
