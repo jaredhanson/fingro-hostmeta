@@ -12,6 +12,88 @@ describe('fingro-lrdd', function() {
     expect(factory).to.be.an('function');
   });
   
+  describe('resolveAliases', function() {
+    
+    describe('with aliases', function() {
+      var lrdd = sinon.stub().yields(null, {
+        subject: 'acct:paulej@packetizer.com',
+        aliases: [ 'h323:paulej@packetizer.com' ],
+        properties: {
+          'http://packetizer.com/ns/name#zh-CN': '保罗‧琼斯',
+          'http://packetizer.com/ns/activated': '2000-02-17T03:00:00Z',
+          'http://packetizer.com/ns/name': 'Paul E. Jones'
+        },
+        links: [
+          { rel: 'http://webfinger.net/rel/avatar',
+            type: 'image/jpeg',
+            href: 'http://www.packetizer.com/people/paulej/images/paulej.jpg' }
+        ]
+      });
+      
+      var aliases;
+      before(function(done) {
+        var resolver = $require('..', { webfinger: { lrdd: lrdd } })();
+        
+        resolver.resolveAliases('acct:paulej@packetizer.com', function(err, s) {
+          if (err) { return done(err); }
+          aliases = s;
+          done();
+        })
+      });
+      
+      it('should call lrdd', function() {
+        expect(lrdd).to.have.been.calledOnce;
+        expect(lrdd).to.have.been.calledWith(
+          'acct:paulej@packetizer.com', {}
+        );
+      });
+      
+      it('should yeild aliases', function() {
+        expect(aliases).to.be.an('array');
+        expect(aliases).to.have.length(1);
+        expect(aliases).to.deep.equal([ 'h323:paulej@packetizer.com' ]);
+      });
+    });
+    
+    describe('without aliases', function() {
+      var lrdd = sinon.stub().yields(null, {
+        subject: 'acct:paulej@packetizer.com',
+        properties: {
+          'http://packetizer.com/ns/name#zh-CN': '保罗‧琼斯',
+          'http://packetizer.com/ns/activated': '2000-02-17T03:00:00Z',
+          'http://packetizer.com/ns/name': 'Paul E. Jones'
+        },
+        links: [
+          { rel: 'http://webfinger.net/rel/avatar',
+            type: 'image/jpeg',
+            href: 'http://www.packetizer.com/people/paulej/images/paulej.jpg' }
+        ]
+      });
+      
+      var aliases, error;
+      before(function(done) {
+        var resolver = $require('..', { webfinger: { lrdd: lrdd } })();
+        
+        resolver.resolveAliases('acct:paulej@packetizer.com', function(err, a) {
+          error = err;
+          aliases = a;
+          done();
+        })
+      });
+      
+      it('should yield error', function() {
+        expect(error).to.be.an.instanceOf(Error);
+        expect(error.message).to.equal('No aliases in resource descriptor');
+        expect(error.code).to.equal('ENODATA');
+      });
+      
+      it('should not yeild aliases', function() {
+        expect(aliases).to.be.undefined;
+      });
+    });
+    
+  });
+  
   describe('resolveServices', function() {
     
     describe('without type, from packetizer.com', function() {
