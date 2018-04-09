@@ -317,6 +317,44 @@ describe('fingro-lrdd', function() {
       });
     });
     
+    describe('with unsupported type', function() {
+      var lrdd = sinon.stub().yields(null, {
+        subject: 'acct:paulej@packetizer.com',
+        aliases: [ 'h323:paulej@packetizer.com' ],
+        properties: {
+          'http://packetizer.com/ns/name#zh-CN': '保罗‧琼斯',
+          'http://packetizer.com/ns/activated': '2000-02-17T03:00:00Z',
+          'http://packetizer.com/ns/name': 'Paul E. Jones'
+        },
+        links: [
+          { rel: 'http://webfinger.net/rel/avatar',
+            type: 'image/jpeg',
+            href: 'http://www.packetizer.com/people/paulej/images/paulej.jpg' }
+        ]
+      });
+      
+      var services, error;
+      before(function(done) {
+        var resolver = $require('..', { webfinger: { lrdd: lrdd } })();
+        
+        resolver.resolveServices('acct:paulej@packetizer.com', 'foo', function(err, s) {
+          error = err;
+          services = s;
+          done();
+        })
+      });
+      
+      it('should yield error', function() {
+        expect(error).to.be.an.instanceOf(Error);
+        expect(error.message).to.equal('Link relation not found: foo');
+        expect(error.code).to.equal('ENODATA');
+      });
+      
+      it('should not yeild services', function() {
+        expect(services).to.be.undefined;
+      });
+    });
+    
     describe('without links', function() {
       var lrdd = sinon.stub().yields(null, {
         subject: 'acct:paulej@packetizer.com',
