@@ -119,6 +119,112 @@ describe('fingro-lrdd', function() {
     
   });
   
+  describe('resolveAttributes', function() {
+    
+    describe('with properties', function() {
+      var lrdd = sinon.stub().yields(null, {
+        subject: 'acct:paulej@packetizer.com',
+        aliases: [ 'h323:paulej@packetizer.com' ],
+        properties: {
+          'http://packetizer.com/ns/name#zh-CN': '保罗‧琼斯',
+          'http://packetizer.com/ns/activated': '2000-02-17T03:00:00Z',
+          'http://packetizer.com/ns/name': 'Paul E. Jones'
+        },
+        links: [
+          { rel: 'http://webfinger.net/rel/avatar',
+            type: 'image/jpeg',
+            href: 'http://www.packetizer.com/people/paulej/images/paulej.jpg' }
+        ]
+      });
+      
+      var attributes;
+      before(function(done) {
+        var resolver = $require('..', { webfinger: { lrdd: lrdd } })();
+        
+        resolver.resolveAttributes('acct:paulej@packetizer.com', function(err, s) {
+          if (err) { return done(err); }
+          attributes = s;
+          done();
+        })
+      });
+      
+      it('should call lrdd', function() {
+        expect(lrdd).to.have.been.calledOnce;
+        expect(lrdd).to.have.been.calledWith(
+          'acct:paulej@packetizer.com', {}
+        );
+      });
+      
+      it('should yeild attributes', function() {
+        expect(attributes).to.be.an('object');
+        expect(attributes).to.deep.equal({
+          'http://packetizer.com/ns/name#zh-CN': '保罗‧琼斯',
+          'http://packetizer.com/ns/activated': '2000-02-17T03:00:00Z',
+          'http://packetizer.com/ns/name': 'Paul E. Jones'
+        });
+      });
+    });
+    
+    describe('without attributes', function() {
+      var lrdd = sinon.stub().yields(null, {
+        subject: 'acct:paulej@packetizer.com',
+        aliases: [ 'h323:paulej@packetizer.com' ],
+        links: [
+          { rel: 'http://webfinger.net/rel/avatar',
+            type: 'image/jpeg',
+            href: 'http://www.packetizer.com/people/paulej/images/paulej.jpg' }
+        ]
+      });
+      
+      var attributes, error;
+      before(function(done) {
+        var resolver = $require('..', { webfinger: { lrdd: lrdd } })();
+        
+        resolver.resolveAttributes('acct:paulej@packetizer.com', function(err, a) {
+          error = err;
+          attributes = a;
+          done();
+        })
+      });
+      
+      it('should yield error', function() {
+        expect(error).to.be.an.instanceOf(Error);
+        expect(error.message).to.equal('No properties in resource descriptor');
+        expect(error.code).to.equal('ENODATA');
+      });
+      
+      it('should not yeild attributes', function() {
+        expect(attributes).to.be.undefined;
+      });
+    });
+    
+    describe('error due to Web Host Metadata not supported', function() {
+      var lrdd = sinon.stub().yields(new Error("Unable to get host-meta or host-meta.json"));
+      
+      var properties, error;
+      before(function(done) {
+        var resolver = $require('..', { webfinger: { lrdd: lrdd } })();
+        
+        resolver.resolveAttributes('acct:paulej@packetizer.com', function(err, a) {
+          error = err;
+          properties = a;
+          done();
+        })
+      });
+      
+      it('should yield error', function() {
+        expect(error).to.be.an.instanceOf(Error);
+        expect(error.message).to.equal('Unable to get host-meta or host-meta.json');
+        expect(error.code).to.equal('EPROTONOSUPPORT');
+      });
+      
+      it('should not yeild properties', function() {
+        expect(properties).to.be.undefined;
+      });
+    });
+    
+  });
+  
   describe('resolveServices', function() {
     
     describe('without type, from packetizer.com', function() {
