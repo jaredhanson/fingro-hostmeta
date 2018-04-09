@@ -334,6 +334,37 @@ describe('fingro-lrdd', function() {
       it('should yield error', function() {
         expect(error).to.be.an.instanceOf(Error);
         expect(error.message).to.equal('Unable to get host-meta or host-meta.json');
+        expect(error.code).to.equal('EPROTONOSUPPORT');
+      });
+      
+      it('should not yeild services', function() {
+        expect(services).to.be.undefined;
+      });
+    });
+    
+    describe('error due to domain not found', function() {
+      var ierr = new Error('getaddrinfo ENOTFOUND afasdf8asdfsadfiasdf.com');
+      ierr.code = 'ENOTFOUND';
+      ierr.errno = 'ENOTFOUND';
+      ierr.syscall = 'getaddrinfo';
+      ierr.hostname = 'afasdf8asdfsadfiasdf.com';
+      var lrdd = sinon.stub().yields(ierr);
+      
+      var error, services;
+      before(function(done) {
+        var resolver = $require('..', { webfinger: { lrdd: lrdd } })();
+        
+        resolver.resolveServices('acct:paulej@packetizer.com', function(err, s) {
+          error = err;
+          services = s;
+          done();
+        })
+      });
+      
+      it('should yield error', function() {
+        expect(error).to.be.an.instanceOf(Error);
+        expect(error.message).to.equal('getaddrinfo ENOTFOUND afasdf8asdfsadfiasdf.com');
+        expect(error.code).to.equal('ENOTFOUND');
       });
       
       it('should not yeild services', function() {
